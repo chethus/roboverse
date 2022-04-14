@@ -2,7 +2,7 @@ from roboverse.envs.widow250 import Widow250Env
 from roboverse.bullet import object_utils
 import roboverse.bullet as bullet
 from roboverse.envs import objects
-from .multi_object import MultiObjectEnv, MultiObjectMultiContainerEnv
+from roboverse.envs.multi_object import MultiObjectEnv, MultiObjectMultiContainerEnv
 from roboverse.assets.shapenet_object_lists import CONTAINER_CONFIGS
 import os.path as osp
 
@@ -145,16 +145,7 @@ if __name__ == "__main__":
         object_scales=(0.7, 0.6),
         target_object='shed',
         load_tray=False,
-        object_position_low=(.49, .18, -.20),
-        object_position_high=(.59, .27, -.20),
-
         container_name='cube',
-        container_position_low=(.72, 0.23, -.20),
-        container_position_high=(.72, 0.23, -.20),
-        container_position_z=-0.34,
-        container_orientation=(0, 0, 0.707107, 0.707107),
-        container_scale=0.05,
-
         camera_distance=0.29,
         camera_target_pos=(0.6, 0.2, -0.28),
         gui=True
