@@ -1020,6 +1020,46 @@ ENVIRONMENT_SPECS = (
     },
 )
 
+GRASP_EASY_SPECS=[]
+for obj_name in GRASP_TRAIN_OBJECTS:
+    GRASP_EASY_SPECS.append(
+        {'id': f'Widow250GraspEasy{obj_name}-v0',
+        'entry_point': 'roboverse.envs.widow250:Widow250Env',
+        'kwargs': {'reward_type': 'grasping',
+                   'control_mode': 'discrete_gripper',
+                   'target_object': obj_name,
+                   'object_names': (obj_name,),
+                   'object_scales': (0.7,),
+                   'load_tray': False,
+                   'xyz_action_scale': 0.2,
+                   'object_position_high': (.6, .2, -.30),
+                   'object_position_low': (.6, .2, -.30),
+                   }
+        }
+    )
+
+GRASP_SINGLE_SPECS = []
+for obj_name in GRASP_TRAIN_OBJECTS:
+    GRASP_SINGLE_SPECS.append(
+         {'id': f'Widow250SingleObjGrasp{obj_name}-v0',
+        'entry_point': 'roboverse.envs.widow250:Widow250Env',
+        'kwargs': {'reward_type': 'grasping',
+                   'control_mode': 'discrete_gripper',
+                   'object_names': (obj_name,),
+                   'object_scales': (0.7,),
+                   'target_object': obj_name,
+                   'load_tray': False,
+                   'object_position_high': (.68, .25, -.30),
+                   'object_position_low': (.53, .15, -.30),
+                   'xyz_action_scale': 0.2,
+                    }
+        },
+    )
+
+ENVIRONMENT_SPECS = ENVIRONMENT_SPECS + tuple(GRASP_EASY_SPECS) + tuple(GRASP_SINGLE_SPECS)
+
+
+
 
 def register_environments():
     for env in ENVIRONMENT_SPECS:
