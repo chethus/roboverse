@@ -5,7 +5,7 @@ from roboverse.bullet.serializable import Serializable
 import roboverse.bullet as bullet
 from roboverse.envs import objects
 from roboverse.bullet import object_utils
-from multi_object import MultiObjectEnv
+from roboverse.envs.multi_object import MultiObjectEnv
 
 END_EFFECTOR_INDEX = 8
 RESET_JOINT_VALUES = [1.57, -0.6, -0.6, 0, -1.57, 0., 0., 0.036, -0.036]
@@ -99,7 +99,7 @@ class Widow250Env(gym.Env, Serializable):
         self.ee_pos_high = ee_pos_high
         self.ee_pos_low = ee_pos_low
 
-        bullet.connect_headless()
+        bullet.connect_headless(self.gui)
 
         # object stuff
         assert target_object in object_names
@@ -203,7 +203,7 @@ class Widow250Env(gym.Env, Serializable):
         xyz_action = action[:3]  # ee position actions
         abc_action = action[3:6]  # ee orientation actions
         gripper_action = action[6]
-        neutral_action = action[7]
+        neutral_action = 0
 
         ee_pos, ee_quat = bullet.get_link_state(
             self.robot_id, self.end_effector_index)
