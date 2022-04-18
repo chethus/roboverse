@@ -1,7 +1,8 @@
 import gym
-from roboverse.assets.shapenet_object_lists \
+from ..assets.shapenet_object_lists \
     import GRASP_TRAIN_OBJECTS, GRASP_TEST_OBJECTS, PICK_PLACE_TRAIN_OBJECTS, \
-    PICK_PLACE_TEST_OBJECTS, TRAIN_CONTAINERS, TEST_CONTAINERS
+    PICK_PLACE_TEST_OBJECTS, TRAIN_CONTAINERS, TEST_CONTAINERS, \
+    OBJECT_SCALINGS, OBJECT_ORIENTATIONS
 
 ENVIRONMENT_SPECS = (
     {
@@ -1020,43 +1021,85 @@ ENVIRONMENT_SPECS = (
     },
 )
 
-GRASP_EASY_SPECS=[]
+GRASP_EASY_TRAIN_SPECS=[]
 for obj_name in GRASP_TRAIN_OBJECTS:
-    GRASP_EASY_SPECS.append(
-        {'id': f'Widow250GraspEasy{obj_name}-v0',
+    GRASP_EASY_TRAIN_SPECS.append(
+        {'id': f'Widow250GraspEasyTrain-{obj_name}-v0',
         'entry_point': 'roboverse.envs.widow250:Widow250Env',
         'kwargs': {'reward_type': 'grasping',
                    'control_mode': 'discrete_gripper',
                    'target_object': obj_name,
                    'object_names': (obj_name,),
-                   'object_scales': (2.7,),
-                   'load_tray': False,
-                   'xyz_action_scale': 0.2,
+                   'object_scales': (OBJECT_SCALINGS[obj_name],),
+                   'object_orientations': (OBJECT_ORIENTATIONS[obj_name],),
                    'object_position_high': (.6, .2, -.30),
                    'object_position_low': (.6, .2, -.30),
+                   'load_tray': False,
+                   'xyz_action_scale': 0.2,
                    }
         }
     )
 
-GRASP_SINGLE_SPECS = []
+GRASP_EASY_TEST_SPECS=[]
+for obj_name in GRASP_TEST_OBJECTS:
+    GRASP_EASY_TEST_SPECS.append(
+        {'id': f'Widow250GraspEasyTest-{obj_name}-v0',
+        'entry_point': 'roboverse.envs.widow250:Widow250Env',
+        'kwargs': {'reward_type': 'grasping',
+                   'control_mode': 'discrete_gripper',
+                   'target_object': obj_name,
+                   'object_names': (obj_name,),
+                   'object_scales': (OBJECT_SCALINGS[obj_name],),
+                   'object_orientations': (OBJECT_ORIENTATIONS[obj_name],),
+                   'object_position_high': (.6, .2, -.30),
+                   'object_position_low': (.6, .2, -.30),
+                   'load_tray': False,
+                   'xyz_action_scale': 0.2,
+                   }
+        }
+    )
+
+GRASP_SINGLE_TRAIN_SPECS = []
 for obj_name in GRASP_TRAIN_OBJECTS:
-    GRASP_SINGLE_SPECS.append(
-         {'id': f'Widow250SingleObjGrasp{obj_name}-v0',
+    GRASP_SINGLE_TRAIN_SPECS.append(
+         {'id': f'Widow250SingleObjGraspTrain-{obj_name}-v0',
         'entry_point': 'roboverse.envs.widow250:Widow250Env',
         'kwargs': {'reward_type': 'grasping',
                    'control_mode': 'discrete_gripper',
                    'object_names': (obj_name,),
-                   'object_scales': (2.7,),
+                   'object_scales': (OBJECT_SCALINGS[obj_name],),
+                   'object_orientations': (OBJECT_ORIENTATIONS[obj_name],),
+                   'object_position_high': (.7, .27, -.30),
+                   'object_position_low': (.5, .18, -.30),
                    'target_object': obj_name,
                    'load_tray': False,
-                   'object_position_high': (.68, .25, -.30),
-                   'object_position_low': (.53, .15, -.30),
                    'xyz_action_scale': 0.2,
                     }
         },
     )
 
-ENVIRONMENT_SPECS = ENVIRONMENT_SPECS + tuple(GRASP_EASY_SPECS) + tuple(GRASP_SINGLE_SPECS)
+GRASP_SINGLE_TEST_SPECS = []
+for obj_name in GRASP_TEST_OBJECTS:
+    GRASP_SINGLE_TEST_SPECS.append(
+         {'id': f'Widow250SingleObjGraspTest-{obj_name}-v0',
+        'entry_point': 'roboverse.envs.widow250:Widow250Env',
+        'kwargs': {'reward_type': 'grasping',
+                   'control_mode': 'discrete_gripper',
+                   'object_names': (obj_name,),
+                   'object_scales': (OBJECT_SCALINGS[obj_name],),
+                   'object_orientations': (OBJECT_ORIENTATIONS[obj_name],),
+                   'object_position_high': (.7, .27, -.30),
+                   'object_position_low': (.5, .18, -.30),
+                   'target_object': obj_name,
+                   'load_tray': False,
+                   'xyz_action_scale': 0.2,
+                    }
+        },
+    )
+
+ENVIRONMENT_SPECS = ENVIRONMENT_SPECS + \
+    tuple(GRASP_EASY_TRAIN_SPECS) + tuple(GRASP_EASY_TEST_SPECS) + \
+    tuple(GRASP_SINGLE_TRAIN_SPECS) + tuple(GRASP_SINGLE_TEST_SPECS)
 
 
 
