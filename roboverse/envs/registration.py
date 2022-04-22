@@ -1021,56 +1021,79 @@ ENVIRONMENT_SPECS = (
     },
 )
 
-GRASP_EASY_TRAIN_SPECS=[]
-for obj_name in GRASP_TRAIN_OBJECTS:
-    GRASP_EASY_TRAIN_SPECS.append(
-        {'id': f'Widow250GraspEasyTrain-{obj_name}-v0',
+# GraspEasy environments with fixed object position
+GRASP_EASY_SPECS=[]
+for obj_name in GRASP_TRAIN_OBJECTS + GRASP_TEST_OBJECTS:
+    GRASP_EASY_SPECS.append(
+        {'id': f'Widow250GraspEasy{obj_name}-v0',
         'entry_point': 'roboverse.envs.widow250:Widow250Env',
         'kwargs': {'reward_type': 'grasping',
                    'control_mode': 'discrete_gripper',
-                   'target_object': obj_name,
                    'object_names': (obj_name,),
                    'object_scales': (OBJECT_SCALINGS[obj_name],),
                    'object_orientations': (OBJECT_ORIENTATIONS[obj_name],),
                    'object_position_high': (.6, .2, -.30),
                    'object_position_low': (.6, .2, -.30),
-                   'load_tray': False,
-                   'xyz_action_scale': 0.2,
-                   }
-        }
-    )
-
-GRASP_EASY_TEST_SPECS=[]
-for obj_name in GRASP_TEST_OBJECTS:
-    GRASP_EASY_TEST_SPECS.append(
-        {'id': f'Widow250GraspEasyTest-{obj_name}-v0',
-        'entry_point': 'roboverse.envs.widow250:Widow250Env',
-        'kwargs': {'reward_type': 'grasping',
-                   'control_mode': 'discrete_gripper',
                    'target_object': obj_name,
-                   'object_names': (obj_name,),
-                   'object_scales': (OBJECT_SCALINGS[obj_name],),
-                   'object_orientations': (OBJECT_ORIENTATIONS[obj_name],),
-                   'object_position_high': (.6, .2, -.30),
-                   'object_position_low': (.6, .2, -.30),
                    'load_tray': False,
                    'xyz_action_scale': 0.2,
                    }
         }
     )
+GRASP_EASY_SPECS.extend((
+    {
+        'id': 'Widow250GraspEasyRandomTrain-v0',
+        'entry_point': 'roboverse.envs.widow250:Widow250MultiObjectEnv',
+        'kwargs': {'reward_type': 'grasping',
+                    'control_mode': 'discrete_gripper',
+                    'possible_objects': GRASP_TRAIN_OBJECTS,
+                    'num_objects': 1,
+                    'load_tray': False,
+                    'object_position_high': (.6, .2, -.30),
+                    'object_position_low': (.6, .2, -.30),
+                    'xyz_action_scale': 0.2,
 
-GRASP_SINGLE_TRAIN_SPECS = []
-for obj_name in GRASP_TRAIN_OBJECTS:
-    GRASP_SINGLE_TRAIN_SPECS.append(
-         {'id': f'Widow250SingleObjGraspTrain-{obj_name}-v0',
+                    # Next three entries are ignored
+                    'object_names': ('gatorade',),
+                    'object_scales': (0.6,),
+                    'object_orientations': ((0, 0, 1, 0),),
+                    }
+    },
+    {
+        'id': 'Widow250GraspEasyRandomTest-v0',
+        'entry_point': 'roboverse.envs.widow250:Widow250MultiObjectEnv',
+        'kwargs': {'reward_type': 'grasping',
+                    'control_mode': 'discrete_gripper',
+                    'possible_objects': GRASP_TEST_OBJECTS,
+                    'num_objects': 1,
+                    'load_tray': False,
+                    'object_position_high': (.6, .2, -.30),
+                    'object_position_low': (.6, .2, -.30),
+                    'xyz_action_scale': 0.2,
+
+                     # Next three entries are ignored
+                    'object_names': ('gatorade',),
+                    'object_scales': (0.6,),
+                    'object_orientations': ((0, 0, 1, 0),),
+                    }
+
+    }
+))
+
+
+# GraspSingle single  with randomized position
+GRASP_SINGLE_SPECS = []
+for obj_name in GRASP_TRAIN_OBJECTS + GRASP_TEST_OBJECTS:
+    GRASP_SINGLE_SPECS.append(
+         {'id': f'Widow250GraspSingle{obj_name}-v0',
         'entry_point': 'roboverse.envs.widow250:Widow250Env',
         'kwargs': {'reward_type': 'grasping',
                    'control_mode': 'discrete_gripper',
                    'object_names': (obj_name,),
                    'object_scales': (OBJECT_SCALINGS[obj_name],),
                    'object_orientations': (OBJECT_ORIENTATIONS[obj_name],),
-                   'object_position_high': (.7, .27, -.30),
-                   'object_position_low': (.5, .18, -.30),
+                   'object_position_high': (.68, .25, -.30),
+                   'object_position_low': (.53, .15, -.30),
                    'target_object': obj_name,
                    'load_tray': False,
                    'xyz_action_scale': 0.2,
@@ -1078,28 +1101,48 @@ for obj_name in GRASP_TRAIN_OBJECTS:
         },
     )
 
-GRASP_SINGLE_TEST_SPECS = []
-for obj_name in GRASP_TEST_OBJECTS:
-    GRASP_SINGLE_TEST_SPECS.append(
-         {'id': f'Widow250SingleObjGraspTest-{obj_name}-v0',
-        'entry_point': 'roboverse.envs.widow250:Widow250Env',
+GRASP_SINGLE_SPECS.extend((
+    {
+        'id': 'Widow250GraspSingleRandomTrain-v0',
+        'entry_point': 'roboverse.envs.widow250:Widow250MultiObjectEnv',
         'kwargs': {'reward_type': 'grasping',
-                   'control_mode': 'discrete_gripper',
-                   'object_names': (obj_name,),
-                   'object_scales': (OBJECT_SCALINGS[obj_name],),
-                   'object_orientations': (OBJECT_ORIENTATIONS[obj_name],),
-                   'object_position_high': (.7, .27, -.30),
-                   'object_position_low': (.5, .18, -.30),
-                   'target_object': obj_name,
-                   'load_tray': False,
-                   'xyz_action_scale': 0.2,
-                    }
-        },
-    )
+                    'control_mode': 'discrete_gripper',
+                    'possible_objects': GRASP_TRAIN_OBJECTS,
+                    'num_objects': 1,
+                    'load_tray': False,
+                    'object_position_high': (.68, .25, -.30),
+                    'object_position_low': (.53, .15, -.30),
+                    'xyz_action_scale': 0.2,
 
-ENVIRONMENT_SPECS = ENVIRONMENT_SPECS + \
-    tuple(GRASP_EASY_TRAIN_SPECS) + tuple(GRASP_EASY_TEST_SPECS) + \
-    tuple(GRASP_SINGLE_TRAIN_SPECS) + tuple(GRASP_SINGLE_TEST_SPECS)
+                     # Next three entries are ignored
+                    'object_names': ('gatorade',),
+                    'object_scales': (0.6,),
+                    'object_orientations': ((0, 0, 1, 0),),
+                    }
+
+    },
+    {
+        'id': 'Widow250GraspSingleRandomTest-v0',
+        'entry_point': 'roboverse.envs.widow250:Widow250MultiObjectEnv',
+        'kwargs': {'reward_type': 'grasping',
+                    'control_mode': 'discrete_gripper',
+                    'possible_objects': GRASP_TEST_OBJECTS,
+                    'num_objects': 1,
+                    'load_tray': False,
+                    'object_position_high': (.68, .25, -.30),
+                    'object_position_low': (.53, .15, -.30),
+                    'xyz_action_scale': 0.2,
+
+                     # Next three entries are ignored
+                    'object_names': ('gatorade',),
+                    'object_scales': (0.6,),
+                    'object_orientations': ((0, 0, 1, 0),),
+                    }
+
+    }
+))
+
+ENVIRONMENT_SPECS = ENVIRONMENT_SPECS + tuple(GRASP_EASY_SPECS) + tuple(GRASP_SINGLE_SPECS)
 
 
 
