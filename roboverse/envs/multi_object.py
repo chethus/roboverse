@@ -13,9 +13,11 @@ class MultiObjectEnv:
     def __init__(self,
                  num_objects=1,
                  possible_objects=TRAIN_OBJECTS[:10],
+                 scaling_factor=1,
                  **kwargs):
         assert isinstance(possible_objects, list)
         self.possible_objects = np.asarray(possible_objects)
+        self.scaling_factor = scaling_factor
         super().__init__(**kwargs)
         self.num_objects = num_objects
 
@@ -25,10 +27,12 @@ class MultiObjectEnv:
         self.object_names = tuple(self.possible_objects[chosen_obj_idx])
 
         self.object_scales = dict()
-        self.object_orientations = dict()
+        if not self.random_orientations:
+            self.object_orientations = dict()
         for object_name in self.object_names:
-            self.object_orientations[object_name] = OBJECT_ORIENTATIONS[object_name]
-            self.object_scales[object_name] = OBJECT_SCALINGS[object_name]
+            if not self.random_orientations:
+                self.object_orientations[object_name] = OBJECT_ORIENTATIONS[object_name]
+            self.object_scales[object_name] = self.scaling_factor * OBJECT_SCALINGS[object_name]
         self.target_object = self.object_names[0]
         return super().reset()
 

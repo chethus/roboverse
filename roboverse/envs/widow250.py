@@ -38,6 +38,7 @@ class Widow250Env(gym.Env, Serializable):
                  object_names=('beer_bottle', 'gatorade'),
                  object_scales=(0.75, 0.75),
                  object_orientations=((0, 0, 1, 0), (0, 0, 1, 0)),
+                 random_orientations=False,
                  object_position_high=(.7, .27, -.30),
                  object_position_low=(.5, .18, -.30),
                  target_object='gatorade',
@@ -111,10 +112,22 @@ class Widow250Env(gym.Env, Serializable):
         self.object_names = object_names
         self.target_object = target_object
         self.object_scales = dict()
-        self.object_orientations = dict()
+        self.random_orientations = random_orientations
+        if self.random_orientations:
+            self.orientation_choices = (
+                (0, 0.707, 0.707, 0),
+                (0, 0, 1, 0),
+                (0, 0.707, 0, 0.707),
+                (0, -0.707, 0.707, 0),
+                (0.5, 0.5, 0.5, 0.5),
+                (0, 0, 0.707, 0.707)
+            )
+        else:
+            self.object_orientations = dict()
         for orientation, object_scale, object_name in \
                 zip(object_orientations, object_scales, self.object_names):
-            self.object_orientations[object_name] = orientation
+            if not self.random_orientations:
+                self.object_orientations[object_name] = orientation
             self.object_scales[object_name] = object_scale
 
         self.in_vr_replay = in_vr_replay
@@ -172,10 +185,15 @@ class Widow250Env(gym.Env, Serializable):
             self.original_object_positions = object_positions
         for object_name, object_position in zip(self.object_names,
                                                 object_positions):
+            if self.random_orientations:
+                orientation_idx = np.random.choice(len(self.orientation_choices))
+                object_orientation = self.orientation_choices[orientation_idx]
+            else:
+                object_orientation = self.object_orientations[object_name]
             self.objects[object_name] = object_utils.load_object(
                 object_name,
                 object_position,
-                object_quat=self.object_orientations[object_name],
+                object_quat=object_orientation,
                 scale=self.object_scales[object_name])
             bullet.step_simulation(self.num_sim_steps_reset)
 
