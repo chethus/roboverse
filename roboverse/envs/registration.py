@@ -2,7 +2,7 @@ import gym
 from ..assets.shapenet_object_lists \
     import GRASP_TRAIN_OBJECTS, GRASP_TEST_OBJECTS, PICK_PLACE_TRAIN_OBJECTS, \
     PICK_PLACE_TEST_OBJECTS, TRAIN_CONTAINERS, TEST_CONTAINERS, \
-    OBJECT_SCALINGS, OBJECT_ORIENTATIONS
+    OBJECT_SCALINGS, OBJECT_BIG_SCALINGS, OBJECT_ORIENTATIONS
 
 ENVIRONMENT_SPECS = [
     {
@@ -1150,7 +1150,7 @@ for obj_name in GRASP_TRAIN_OBJECTS + GRASP_TEST_OBJECTS:
         'kwargs': {'reward_type': 'grasping',
                    'control_mode': 'discrete_gripper',
                    'object_names': (obj_name,),
-                   'object_scales': (2 * OBJECT_SCALINGS[obj_name],),
+                   'object_scales': (OBJECT_BIG_SCALINGS[obj_name],),
                    'object_orientations': (OBJECT_ORIENTATIONS[obj_name],),
                    'object_position_high': (.6, .2, -.30),
                    'object_position_low': (.6, .2, -.30),
@@ -1172,7 +1172,7 @@ GRASP_BIG_SPECS.extend((
                     'object_position_high': (.6, .2, -.30),
                     'object_position_low': (.6, .2, -.30),
                     'xyz_action_scale': 0.2,
-                    'scaling_factor': 2,
+                    'use_big_scalings': True,
 
                     # Next three entries are ignored
                     'object_names': ('gatorade',),
@@ -1191,7 +1191,7 @@ GRASP_BIG_SPECS.extend((
                     'object_position_high': (.6, .2, -.30),
                     'object_position_low': (.6, .2, -.30),
                     'xyz_action_scale': 0.2,
-                    'scaling_factor': 2,
+                    'use_big_scalings': True,
 
                      # Next three entries are ignored
                     'object_names': ('gatorade',),
@@ -1274,7 +1274,7 @@ for obj_name in GRASP_TRAIN_OBJECTS + GRASP_TEST_OBJECTS:
         'kwargs': {'reward_type': 'grasping',
                    'control_mode': 'discrete_gripper',
                    'object_names': (obj_name,),
-                   'object_scales': (2 * OBJECT_SCALINGS[obj_name],),
+                   'object_scales': (OBJECT_BIG_SCALINGS[obj_name],),
                    'random_orientations': True,
                    'object_position_high': (.68, .25, -.30),
                    'object_position_low': (.53, .15, -.30),
@@ -1301,7 +1301,7 @@ GRASP_HARD_SPECS.extend((
                     'object_position_high': (.68, .25, -.30),
                     'object_position_low': (.53, .15, -.30),
                     'xyz_action_scale': 0.2,
-                    'scaling_factor': 2,
+                    'use_big_scalings': True,
 
                     # Next three entries are ignored
                     'object_names': ('gatorade',),
@@ -1321,7 +1321,7 @@ GRASP_HARD_SPECS.extend((
                     'object_position_high': (.68, .25, -.30),
                     'object_position_low': (.53, .15, -.30),
                     'xyz_action_scale': 0.2,
-                    'scaling_factor': 2,
+                    'use_big_scalings': True,
 
                      # Next three entries are ignored
                     'object_names': ('gatorade',),

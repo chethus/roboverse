@@ -7,7 +7,7 @@ from roboverse.policies import policies
 import argparse
 from tqdm import tqdm
 
-from roboverse.utils import get_timestamp
+from roboverse.utils import get_timestamp_ms
 EPSILON = 0.1
 
 # TODO(avi): Clean this up
@@ -78,7 +78,7 @@ def collect_one_traj(env, policy, num_timesteps, noise,
 
 def main(args):
 
-    timestamp = get_timestamp()
+    timestamp = get_timestamp_ms()
     if osp.exists(NFS_PATH):
         data_save_path = osp.join(NFS_PATH, args.save_directory)
     else:

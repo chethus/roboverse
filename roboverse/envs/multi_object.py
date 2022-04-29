@@ -1,5 +1,5 @@
 from roboverse.assets.shapenet_object_lists import (
-    TRAIN_OBJECTS, TRAIN_CONTAINERS, OBJECT_SCALINGS, OBJECT_ORIENTATIONS,
+    TRAIN_OBJECTS, TRAIN_CONTAINERS, OBJECT_SCALINGS, OBJECT_BIG_SCALINGS, OBJECT_ORIENTATIONS,
     CONTAINER_CONFIGS)
 
 import numpy as np
@@ -13,11 +13,11 @@ class MultiObjectEnv:
     def __init__(self,
                  num_objects=1,
                  possible_objects=TRAIN_OBJECTS[:10],
-                 scaling_factor=1,
+                 use_big_scalings=False,
                  **kwargs):
         assert isinstance(possible_objects, list)
         self.possible_objects = np.asarray(possible_objects)
-        self.scaling_factor = scaling_factor
+        self.use_big_scalings = use_big_scalings
         super().__init__(**kwargs)
         self.num_objects = num_objects
 
@@ -32,7 +32,8 @@ class MultiObjectEnv:
         for object_name in self.object_names:
             if not self.random_orientations:
                 self.object_orientations[object_name] = OBJECT_ORIENTATIONS[object_name]
-            self.object_scales[object_name] = self.scaling_factor * OBJECT_SCALINGS[object_name]
+            scalings_list = OBJECT_BIG_SCALINGS if self.use_big_scalings else OBJECT_SCALINGS
+            self.object_scales[object_name] = scalings_list[object_name]
         self.target_object = self.object_names[0]
         return super().reset()
 
