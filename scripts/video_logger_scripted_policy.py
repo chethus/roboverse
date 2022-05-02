@@ -67,7 +67,7 @@ class BulletVideoLogger:
         self.projection_matrix = bullet.get_projection_matrix(
             self.image_size, self.image_size)
         # end camera settings
-        self.env = roboverse.make(self.env_name, gui=False,
+        self.env = roboverse.make(self.env_name, gui=True,
                              transpose_image=False)
         assert scripted_policy_name in policies.keys()
         self.policy_name = scripted_policy_name
