@@ -73,7 +73,6 @@ if __name__ == "__main__":
         time.sleep(1)
 
     exit_codes = [p.wait() for p in subprocesses]
-    print('Codes:', exit_codes)
 
     merge_command = ['python',
                      'scripts/combine_trajectories.py',

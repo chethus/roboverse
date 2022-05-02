@@ -347,7 +347,7 @@ OBJECT_BIG_SCALINGS = {
     'ball': 1.5,
     'sack_vase': 0.9,
     'fountain_vase': 0.6,
-    'shed': 0.9,
+    'shed': 0.8,
     'circular_table': 0.6,
     'hex_deep_bowl': 0.6,
     'smushed_dumbbell': 0.9,
@@ -374,7 +374,7 @@ OBJECT_BIG_SCALINGS = {
     'curved_handle_cup': 0.75,
     'bullet_vase': 0.9,
     'glass_half_gallon': 0.9,
-    'flat_bottom_sack_vase': 0.75,
+    'flat_bottom_sack_vase': 0.7,
 
     'teepee': 1.05,
     'trapezoidal_bin': 0.6,
@@ -384,8 +384,8 @@ OBJECT_BIG_SCALINGS = {
     't_cup': 0.75,
     'cookie_circular_lidless_tin': 0.75,
     'box_sofa': 0.6,
-    'baseball_cap': 0.75,
-    'two_layered_lampshade': 0.9,
+    'baseball_cap': 0.7,
+    'two_layered_lampshade': 0.7,
 
     'conic_bin': 0.6,
     'jar': 1.05,
@@ -395,8 +395,8 @@ OBJECT_BIG_SCALINGS = {
     # New objects:
     'ringed_cup_oversized_base': 0.75,
     'square_rod_embellishment': 0.9,
-    'elliptical_capsule': 0.9,
-    'aero_cylinder': 0.75,
+    'elliptical_capsule': 0.8,
+    'aero_cylinder': 0.7,
     'grill_trash_can': 0.75,
 }
 
