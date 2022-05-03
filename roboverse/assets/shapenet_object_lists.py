@@ -438,7 +438,6 @@ PICK_PLACE_TEST_OBJECTS = [
     'elliptical_capsule',
 ]
 
-'''
 OBJECT_ORIENTATIONS = {
     'conic_cup': (0, 0, 1, 0),
     'ball': (0, 0, 1, 0),
@@ -493,60 +492,6 @@ OBJECT_ORIENTATIONS = {
     'elliptical_capsule': (0.5, 0.5, 0.5, 0.5),
     'aero_cylinder': (0, 0, 1, 0),
     'grill_trash_can': (0, 0.707, 0.707, 0),
-}
-'''
-
-OBJECT_ORIENTATIONS = {
-    'conic_cup': (0, 0, 0.707, 0.707),
-    'ball': (0, 0.707, 0, 0.707),
-    'sack_vase': (0, 0, 1, 0),
-    'fountain_vase': (0, -0.707, 0.707, 0),
-    'shed': (0, 0.707, 0, 0.707),
-    'circular_table': (0, 0, 1, 0),
-    'hex_deep_bowl': (0.5, 0.5, 0.5, 0.5),
-    'smushed_dumbbell': (0, 0.707, 0, 0.707),
-    'square_prism_bin': (0.5, 0.5, 0.5, 0.5),
-    'narrow_tray': (0, 0.707, 0, 0.707),
-    'colunnade_top': (0, 0.707, 0.707, 0),
-    'stalagcite_chunk': (0, 0.707, 0.707, 0),
-    'bongo_drum_bowl': (0, 0, 1, 0),
-    'pacifier_vase': (0.5, 0.5, 0.5, 0.5),
-    'beehive_funnel': (0, -0.707, 0.707, 0),
-    'crooked_lid_trash_can': (0, 0, 1, 0),
-    'double_l_faucet': (0, 0.707, 0.707, 0),
-    'toilet_bowl': (0, 0.707, 0.707, 0),
-    'pepsi_bottle': (0, 0.707, 0.707, 0),
-    'two_handled_vase': (0, 0.707, 0, 0.707),
-    'tongue_chair': (0, 0.707, 0.707, 0),
-    'oil_tanker': (0, 0.707, 0.707, 0),
-    'thick_wood_chair': (0, -0.707, 0.707, 0),
-    'modern_canoe': (0, 0, 0.707, 0.707),
-    'pear_ringed_vase': (0.5, 0.5, 0.5, 0.5),
-    'short_handle_cup': (0, 0.707, 0, 0.707),
-    'curved_handle_cup': (0, -0.707, 0.707, 0),
-    'bullet_vase': (0, 0, 1, 0),
-    'glass_half_gallon': (0, 0, 1, 0),
-    'flat_bottom_sack_vase': (0.5, 0.5, 0.5, 0.5),
-    'teepee': (0, 0.707, 0, 0.707),
-    'trapezoidal_bin': (0, -0.707, 0.707, 0),
-    'vintage_canoe': (0, 0.707, 0.707, 0),
-    'bathtub': (0, 0, 1, 0),
-    'flowery_half_donut': (0.5, 0.5, 0.5, 0.5),
-    't_cup': (0, 0, 1, 0),
-    'cookie_circular_lidless_tin': (0, -0.707, 0.707, 0),
-    'box_sofa': (0, -0.707, 0.707, 0),
-    'baseball_cap': (0.5, 0.5, 0.5, 0.5),
-    'two_layered_lampshade': (0, 0.707, 0, 0.707),
-    'conic_bin': (0, -0.707, 0.707, 0),
-    'jar': (0.5, 0.5, 0.5, 0.5),
-    'gatorade': (0, 0.707, 0.707, 0),
-    'bunsen_burner': (0, 0, 0.707, 0.707),
-    'long_vase': (0, 0.707, 0, 0.707),
-    'ringed_cup_oversized_base': (0, 0.707, 0, 0.707),
-    'square_rod_embellishment': (0.5, 0.5, 0.5, 0.5),
-    'elliptical_capsule': (0, -0.707, 0.707, 0),
-    'aero_cylinder': (0, 0.707, 0, 0.707),
-    'grill_trash_can': (0.5, 0.5, 0.5, 0.5)
 }
 
 GRASP_OFFSETS = {

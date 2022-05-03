@@ -73,8 +73,6 @@ class RotateGrasp(Grasp):
 
     def reset(self):
         super().reset()
-        # pitch_angle = np.random.uniform(75, 105)
-        # roll_angle = np.random.uniform(-15, 15)
         pitch_angle = 90
         roll_angle = 0
         yaw_angle = np.random.uniform(90, 180) * np.random.choice((-1,1))
