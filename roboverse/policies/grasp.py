@@ -77,6 +77,7 @@ class RotateGrasp(Grasp):
         roll_angle = 0
         yaw_angle = np.random.uniform(90, 180) * np.random.choice((-1,1))
         self.pick_angles = np.array([pitch_angle, roll_angle, yaw_angle])
+        self.angle_done = False
     
     def get_action(self):
         ee_pos, ee_quat = bullet.get_link_state(
@@ -86,19 +87,28 @@ class RotateGrasp(Grasp):
             self.env.objects[self.object_to_target])
         object_lifted = object_pos[2] > self.pick_height_thresh
         gripper_pickpoint_dist = np.linalg.norm(self.pick_point - ee_pos)
-        gripper_angle_dist = np.linalg.norm(self.pick_angles - ee_deg)
+        angle_delta = (self.pick_angles - ee_deg) % 360
+        angle_delta -= (angle_delta > 180) * 360
+        gripper_angle_dist = np.linalg.norm(angle_delta)
+        self.angle_done = self.angle_done or gripper_angle_dist <= 5
         done = False
         neutral_action = [0.]
 
-        if (gripper_pickpoint_dist > 0.02 or gripper_angle_dist > 5) and self.env.is_gripper_open:
+        if not self.angle_done and self.env.is_gripper_open:
             # move near the object
-            action_xyz = (self.pick_point - ee_pos) * self.xyz_action_scale
+            action_xyz = (self.pick_point - ee_pos) * self.xyz_action_scale/2
             xy_diff = np.linalg.norm(action_xyz[:2] / self.xyz_action_scale)
             if xy_diff > 0.03 or gripper_angle_dist > 7:
                 action_xyz[2] = 0.0
-            angle_delta = (self.pick_angles - ee_deg) % 360
-            angle_delta -= (angle_delta > 180) * 360
             action_angles = angle_delta * self.angles_action_scale
+            action_gripper = [0.]
+        elif gripper_pickpoint_dist > 0.02 and self.env.is_gripper_open:
+            # move near the object
+            action_xyz = (self.pick_point - ee_pos) * self.xyz_action_scale/2
+            xy_diff = np.linalg.norm(action_xyz[:2] / self.xyz_action_scale)
+            if xy_diff > 0.03:
+                action_xyz[2] = 0.0
+            action_angles = [0, 0, 0]
             action_gripper = [0.]
         elif self.env.is_gripper_open:
             # near the object enough, performs grasping action
@@ -107,66 +117,19 @@ class RotateGrasp(Grasp):
             action_gripper = [-0.7]
         elif not object_lifted:
             # lifting objects above the height threshold for picking
-            action_xyz = (self.env.ee_pos_init - ee_pos) * self.xyz_action_scale
+            action_xyz = np.array((0, 0, .5))
             action_angles = [0., 0., 0.]
-            action_gripper = [0.]
+            action_gripper = [0]
         else:
             # Hold
             action_xyz = (0., 0., 0.)
             action_angles = [0., 0., 0.]
-            action_gripper = [0.]
+            action_gripper = [0]
 
         agent_info = dict(done=done)
         action = np.concatenate(
             (action_xyz, action_angles, action_gripper, neutral_action))
         return action, agent_info
-
-
-class GraspLift(RotateGrasp):
-    
-    def get_action(self):
-        ee_pos, ee_quat = bullet.get_link_state(
-            self.env.robot_id, self.env.end_effector_index)
-        ee_deg = bullet.quat_to_deg(ee_quat)
-        object_pos, _ = bullet.get_object_position(
-            self.env.objects[self.object_to_target])
-        object_lifted = object_pos[2] > self.pick_height_thresh
-        gripper_pickpoint_dist = np.linalg.norm(self.pick_point - ee_pos)
-        gripper_angle_dist = np.linalg.norm(self.pick_angles - ee_deg)
-        done = False
-        neutral_action = [0.]
-
-        if (gripper_pickpoint_dist > 0.02 or gripper_angle_dist > 5) and self.env.is_gripper_open:
-            # move near the object
-            action_xyz = (self.pick_point - ee_pos) * self.xyz_action_scale
-            xy_diff = np.linalg.norm(action_xyz[:2] / self.xyz_action_scale)
-            if xy_diff > 0.03 or gripper_angle_dist > 7:
-                action_xyz[2] = 0.0
-            angle_delta = (self.pick_angles - ee_deg) % 360
-            angle_delta -= (angle_delta > 180) * 360
-            action_angles = angle_delta * self.angles_action_scale
-            action_gripper = [0.]
-        elif self.env.is_gripper_open:
-            # near the object enough, performs grasping action
-            action_xyz = (self.pick_point - ee_pos) * self.xyz_action_scale
-            action_angles = [0., 0., 0.]
-            action_gripper = [-0.7]
-        elif not object_lifted:
-            # lifting objects above the height threshold for picking
-            action_xyz = np.array([0, 0, 10])
-            action_angles = [0., 0., 0.]
-            action_gripper = [0.]
-        else:
-            # Hold
-            action_xyz = (0., 0., 0.)
-            action_angles = [0., 0., 0.]
-            action_gripper = [0.]
-
-        agent_info = dict(done=done)
-        action = np.concatenate(
-            (action_xyz, action_angles, action_gripper, neutral_action))
-        return action, agent_info
-
 
 class GraspTransfer:
 
