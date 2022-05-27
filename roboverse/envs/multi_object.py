@@ -14,15 +14,23 @@ class MultiObjectEnv:
                  num_objects=1,
                  possible_objects=TRAIN_OBJECTS[:10],
                  use_big_scalings=False,
+                 cycle_objects=False,
                  **kwargs):
         assert isinstance(possible_objects, list)
+        self.cycle_objects = cycle_objects
+        if cycle_objects:
+            self.obj_idx = 0
         self.possible_objects = np.asarray(possible_objects)
         self.use_big_scalings = use_big_scalings
         super().__init__(**kwargs)
         self.num_objects = num_objects
 
     def reset(self):
-        chosen_obj_idx = np.random.randint(0, len(self.possible_objects),
+        if self.cycle_objects:
+            chosen_obj_idx = np.array(range(self.obj_idx, self.obj_idx + self.num_objects)) % len(self.possible_objects)
+            self.obj_idx = (self.obj_idx + 1) % len(self.possible_objects)
+        else:
+            chosen_obj_idx = np.random.randint(0, len(self.possible_objects),
                                            size=self.num_objects)
         self.object_names = tuple(self.possible_objects[chosen_obj_idx])
 

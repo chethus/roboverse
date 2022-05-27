@@ -1,5 +1,6 @@
 import gym
 import numpy as np
+import time
 
 from roboverse.bullet.serializable import Serializable
 import roboverse.bullet as bullet
@@ -381,7 +382,7 @@ class Widow250MultiObjectEnv(MultiObjectEnv, Widow250Env):
 
 
 if __name__ == "__main__":
-    env = Widow250Env(gui=True)
+    env = Widow250Env(gui=False)
     import time
 
     env.reset()

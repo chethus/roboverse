@@ -1,4 +1,5 @@
 import pybullet as p
+import numpy as np
 
 
 def render(height, width, view_matrix, projection_matrix,
@@ -16,6 +17,9 @@ def render(height, width, view_matrix, projection_matrix,
     # import ipdb; ipdb.set_trace()
     # Here, if I do len(img), I get 9216.
     # img = np.reshape(np.array(img), (48, 48, 4))
+    if isinstance(img, tuple):
+        img_dim = round((len(img)**.5)/2)
+        img = np.reshape(np.array(img), (img_dim, img_dim, 4))
 
     img = img[:, :, :-1]
     return img, depth, segmentation
