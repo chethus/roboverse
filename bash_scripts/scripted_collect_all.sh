@@ -1,6 +1,6 @@
 #!/bin/bash
 
-while getopts e:a:n:g: flag
+while getopts e:n:g: flag
 do
     case "${flag}" in
         e) env=${OPTARG};;
@@ -13,9 +13,9 @@ GRASP_TRAIN_OBJECTS='conic_cup fountain_vase circular_table hex_deep_bowl smushe
 GRASP_TEST_OBJECTS='square_rod_embellishment grill_trash_can shed sack_vase two_handled_vase thick_wood_chair curved_handle_cup baseball_cap elliptical_capsule'
 
 for obj in $GRASP_TEST_OBJECTS; do
-    CUDA_VISIBLE_DEVICES=$gpu python scripts/scripted_collect_parallel.py --save-all -e Widow250Grasp${env}_${obj}-v0 -pl rotate_grasp -a grasp_success -n $num_trajs -t 30 -d /media/3tb/chet/robo_exp/trajs/grasp_${env,,}_test_all_real/${obj} --target-object ${obj} -p 10
+    CUDA_VISIBLE_DEVICES=$gpu python scripts/scripted_collect_parallel.py --save-all -e Widow250Grasp${env}_${obj}-v0 -pl rotate_grasp -a grasp_success -n $num_trajs -t 50 -d /media/3tb/chet/robo_exp/trajs/grasp_${env,,}_test_all/${obj} --target-object ${obj} -p 10
 done
 
 for obj in $GRASP_TRAIN_OBJECTS; do
-    CUDA_VISIBLE_DEVICES=$gpu python scripts/scripted_collect_parallel.py --save-all -e Widow250Grasp${env}_${obj}-v0 -pl rotate_grasp -a grasp_success -n $num_trajs -t 30 -d /media/3tb/chet/robo_exp/trajs/grasp_${env,,}_train_all_real/${obj} --target-object ${obj} -p 10
+    CUDA_VISIBLE_DEVICES=$gpu python scripts/scripted_collect_parallel.py --save-all -e Widow250Grasp${env}_${obj}-v0 -pl rotate_grasp -a grasp_success -n $num_trajs -t 50 -d /media/3tb/chet/robo_exp/trajs/grasp_${env,,}_train_all/${obj} --target-object ${obj} -p 10
 done
