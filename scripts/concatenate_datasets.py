@@ -24,4 +24,4 @@ if __name__ == "__main__":
     print('concatenating..')
     all_data = np.concatenate(all_files, axis=0)
     print('saving..')
-    np.save(args.output, all_data)
+    np.savez_compressed(args.output, all_data)

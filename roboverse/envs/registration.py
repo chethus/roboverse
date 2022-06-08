@@ -2,7 +2,7 @@ import gym
 from ..assets.shapenet_object_lists \
     import GRASP_TRAIN_OBJECTS, GRASP_TEST_OBJECTS, PICK_PLACE_TRAIN_OBJECTS, \
     PICK_PLACE_TEST_OBJECTS, TRAIN_CONTAINERS, TEST_CONTAINERS, \
-    OBJECT_SCALINGS, OBJECT_BIG_SCALINGS, OBJECT_ORIENTATIONS
+    OBJECT_SCALINGS, OBJECT_BIG_SCALINGS, OBJECT_ORIENTATIONS, ORIENTATION_OPTIONS
 
 ENVIRONMENT_SPECS = [
     {
@@ -1406,6 +1406,27 @@ GRASP_HARD_SPECS.extend((
     }
 ))
 
+# GraspBig environments with larger objects
+GRASP_BIG_ORIENT_CHOICE_SPECS=[]
+for obj_name in GRASP_TRAIN_OBJECTS + GRASP_TEST_OBJECTS:
+    for orient_num, orient in enumerate(ORIENTATION_OPTIONS):
+        GRASP_BIG_ORIENT_CHOICE_SPECS.append(
+            {'id': f'Widow250GraspBig_{obj_name}_orient_{orient_num}-v0',
+            'entry_point': 'roboverse.envs.widow250:Widow250Env',
+            'kwargs': {'reward_type': 'grasping',
+                    'control_mode': 'discrete_gripper',
+                    'object_names': (obj_name,),
+                    'object_scales': (OBJECT_BIG_SCALINGS[obj_name],),
+                    'object_orientations': (orient,),
+                    'object_position_high': (.6, .2, -.30),
+                    'object_position_low': (.6, .2, -.30),
+                    'target_object': obj_name,
+                    'load_tray': False,
+                    'xyz_action_scale': 0.2,
+                    }
+            }
+        )
+
 ENVIRONMENT_SPECS.extend([
     *GRASP_EASY_SPECS,
     *GRASP_LOC_SPECS,
@@ -1413,10 +1434,8 @@ ENVIRONMENT_SPECS.extend([
     *GRASP_ORIENT_SPECS,
     *GRASP_BIGLOC_SPECS,
     *GRASP_HARD_SPECS,
+    *GRASP_BIG_ORIENT_CHOICE_SPECS,
 ])
-
-
-
 
 def register_environments():
     for env in ENVIRONMENT_SPECS:

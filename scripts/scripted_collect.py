@@ -85,6 +85,7 @@ def main(args):
         data_save_path = osp.join(__file__, "../..", "data", args.save_directory)
     data_save_path = osp.abspath(data_save_path)
     if not osp.exists(data_save_path):
+        print(data_save_path)
         os.makedirs(data_save_path)
 
     env = roboverse.make(args.env_name,

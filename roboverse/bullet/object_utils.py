@@ -194,7 +194,7 @@ def load_shapenet_object(object_name, object_position,
                                          meshScale=scale * np.array([1, 1, 1]))
     visualid = p.createVisualShape(p.GEOM_MESH, fileName=filepath_visual,
                                    meshScale=scale * np.array([1, 1, 1]))
-    body = p.createMultiBody(0.05, collisionid, visualid)
+    body = p.createMultiBody(0.01, collisionid, visualid)
     p.resetBasePositionAndOrientation(body, object_position, object_quat)
     return body
 
