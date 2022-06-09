@@ -33,7 +33,7 @@ class Widow250Env(gym.Env, Serializable):
     def __init__(self,
                  control_mode='continuous',
                  observation_mode='pixels',
-                 observation_img_dim=48,
+                 observation_img_dim=128,
                  transpose_image=True,
 
                  object_names=('beer_bottle', 'gatorade'),

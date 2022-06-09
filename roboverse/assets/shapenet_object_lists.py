@@ -469,7 +469,7 @@ OBJECT_ORIENTATION_INDS = {
     'short_handle_cup': 4,
     'bullet_vase': 2,
     'glass_half_gallon': 2,
-    'flat_bottom_sack_vase': 1,
+    'flat_bottom_sack_vase': 0,
     'trapezoidal_bin': 0,
     'vintage_canoe': 2,
     'bathtub': 3,
