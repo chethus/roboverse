@@ -17,5 +17,5 @@ for obj in $GRASP_TEST_OBJECTS; do
 done
 
 for obj in $GRASP_TRAIN_OBJECTS; do
-    echo CUDA_VISIBLE_DEVICES=$gpu python scripts/scripted_collect_parallel.py --save-all -e Widow250Grasp${env}_${obj}-v0 -pl rotate_grasp -a grasp_success -n $num_trajs -t 50 -d /nfs/kun2/users/chet/robo_exp/trajs_new/grasp_${env,,}_train_all/${obj} --target-object ${obj} -p 10
+    CUDA_VISIBLE_DEVICES=$gpu python scripts/scripted_collect_parallel.py --save-all -e Widow250Grasp${env}_${obj}-v0 -pl rotate_grasp -a grasp_success -n $num_trajs -t 50 -d /nfs/kun2/users/chet/robo_exp/trajs_new/grasp_${env,,}_train_all/${obj} --target-object ${obj} -p 10
 done

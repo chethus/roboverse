@@ -131,6 +131,58 @@ class RotateGrasp(Grasp):
             (action_xyz, action_angles, action_gripper, neutral_action))
         return action, agent_info
 
+class CustomGrasp(RotateGrasp):
+    obj_yaws = {
+        'conic_cup': -80,
+        'fountain_vase': 30,
+        'circular_table': 32,
+        'hex_deep_bowl': 47,
+        'smushed_dumbbell': 12,
+        'square_prism_bin': 15,
+        'narrow_tray': 7,
+        'colunnade_top': -11,
+        'stalagcite_chunk': -45,
+        'bongo_drum_bowl': 70,
+        'pacifier_vase': -23,
+        'beehive_funnel': -53,
+        'crooked_lid_trash_can': 42,
+        'toilet_bowl': -41,
+        'pepsi_bottle': 4,
+        'tongue_chair': -33,
+        'modern_canoe': -10,
+        'pear_ringed_vase': -53,
+        'short_handle_cup': 24,
+        'bullet_vase': -54,
+        'glass_half_gallon': -168,
+        'flat_bottom_sack_vase': -45,
+        'trapezoidal_bin': -47,
+        'vintage_canoe': 46,
+        'bathtub': 40,
+        'flowery_half_donut': -45,
+        't_cup': -1,
+        'cookie_circular_lidless_tin': 14,
+        'box_sofa': 1,
+        'two_layered_lampshade': 6,
+        'conic_bin': -34,
+        'jar': 48,
+        'bunsen_burner': 14,
+        'long_vase': 58,
+        'ringed_cup_oversized_base': 13,
+        'aero_cylinder': 63,
+        'square_rod_embellishment': 2,
+        'grill_trash_can': -11,
+        'shed': 27,
+        'sack_vase': -20,
+        'two_handled_vase': 40,
+        'thick_wood_chair': -16,
+        'curved_handle_cup': 55,
+        'baseball_cap': 80,
+        'elliptical_capsule': 45,
+    }
+    def reset(self):
+        super().reset()
+        self.pick_angles[-1] = GraspCustom.obj_yaws[self.env.target_object]
+
 class GraspTransfer:
 
     def __init__(self, env, pick_height_thresh=-0.23, xyz_action_scale=7.0,
